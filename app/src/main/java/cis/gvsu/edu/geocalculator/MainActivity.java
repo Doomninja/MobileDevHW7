@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 public class MainActivity extends AppCompatActivity {
 
     public static int SETTINGS_RESULT = 1;
+    public static int HISTORY_RESULT = 2;
     private String bearingUnits = "degrees";
     private String distanceUnits = "kilometers";
 
@@ -153,7 +154,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, MySettingsActivity.class);
             startActivityForResult(intent, SETTINGS_RESULT );
             return true;
+        } else if(item.getItemId() == R.id.action_history) {
+            Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+            startActivityForResult(intent, HISTORY_RESULT );
+            return true;
         }
+
         return false;
     }
 }
