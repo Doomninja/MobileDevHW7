@@ -16,6 +16,10 @@ import java.text.DecimalFormat;
 import java.math.RoundingMode;
 import android.view.inputmethod.InputMethodManager;
 
+import org.joda.time.DateTime;
+
+import cis.gvsu.edu.geocalculator.dummy.HistoryContent;
+
 public class MainActivity extends AppCompatActivity {
 
     public static int SETTINGS_RESULT = 1;
@@ -116,6 +120,9 @@ public class MainActivity extends AppCompatActivity {
             String bStr = "Bearing: " + df.format(b) + " " + this.bearingUnits;
             bearing.setText(bStr);
             hideKeyboard();
+            HistoryContent.HistoryItem item = new HistoryContent.HistoryItem(lat1.toString(),
+                    lng1.toString(), lat2.toString(), lng2.toString(), DateTime.now());
+            HistoryContent.addItem(item);
         } catch (Exception e) {
             return;
         }
@@ -139,7 +146,15 @@ public class MainActivity extends AppCompatActivity {
             this.bearingUnits = data.getStringExtra("bearingUnits");
             this.distanceUnits = data.getStringExtra("distanceUnits");
             updateScreen();
+        }  else if (resultCode == HISTORY_RESULT) {
+            String[] vals = data.getStringArrayExtra("item");
+            this.p1Lat.setText(vals[0]);
+            this.p1Lng.setText(vals[1]);
+            this.p2Lat.setText(vals[2]);
+            this.p2Lng.setText(vals[3]);
+            this.updateScreen();  // code that updates the calcs.
         }
+
     }
 
     @Override
